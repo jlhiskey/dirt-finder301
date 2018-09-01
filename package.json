@@ -1,0 +1,32 @@
+{
+  "name": "dirt-finder301",
+  "version": "1.0.0",
+  "description": "Code Fellows 301 Final Project",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jlhiskey/dirt-finder301.git"
+  },
+  "keywords": [
+    "dirt",
+    "finder"
+  ],
+  "author": "Jason Hiskey, Daniel Frey, Kris Esvelt, Trevor Stam",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jlhiskey/dirt-finder301/issues"
+  },
+  "homepage": "https://github.com/jlhiskey/dirt-finder301#readme",
+  "dependencies": {
+    "dotenv": "^6.0.0",
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "nodemon": "^1.18.4",
+    "pg": "^7.4.3",
+    "twilio": "^3.19.2"
+  }
+}
