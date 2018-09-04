@@ -64,10 +64,6 @@ app.post('/sms', (req, res) => {
     });
 });
 
-  res.writeHead(200, {'Content-Type': 'text/xml'});
-  res.end(twiml.toString());
-});
-
 // route functions
 
 function homePage(req, res) {
