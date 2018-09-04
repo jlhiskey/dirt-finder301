@@ -8,20 +8,25 @@
     <%- include partials/styles.ejs %>
 </head>
 <body>
-    <header>
-        <div class="site-title">
-            <h1><a href="/">Dirt-Finder</a></h1>
-            <%- include partials/nav.ejs %>
-        </div>
-        <div class="page-title">
-            <h2><%= thisPageTitle %></h2>
-        </div>
-    </header>
+  <header>
+    <div class="site-title">
+      <h1><a href="/">Dirt-Finder</a></h1>
+      <%- include partials/nav.ejs %>
+    </div>
+        
+    <div class="page-title">
+      <h2><%= thisPageTitle %></h2>
+    </div>
+  </header>
+  
+  <main>
     <div class="content-container">
         <div class="content-container-inner">
             <%- include(thisPage) %>
         </div>
+    
     </div>  
     <%- include partials/scripts.ejs %>
+  </main>
 </body>
 </html>
