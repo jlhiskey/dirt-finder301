@@ -27,12 +27,13 @@ app.get('/', (req, res) => {
   homePage(req, res);
 });
 
+app.get('/usercreation', (req, res) => {
+  userCreation(req, res);
+});
 
-// route functions
-
-function homePage(req, res) {
-  res.render('master', {'thisPage':'partials/home.ejs', 'thisPageTitle':'Home'});
-}
+app.post('/usercreation/submit', (req, res) => {
+  addNew(req, res);
+});
 
 
 // twilio query
@@ -54,8 +55,50 @@ app.post('/sms', (req, res) => {
       let queryData = JSON.stringify(data.rows[0]);
       const twiml = new MessagingResponse();
 
+
       twiml.message(`Here are the people near you: ${queryData}`);
       res.writeHead(200, {'Content-Type': 'text/xml'});
       res.end(twiml.toString());
     });
 });
+
+  res.writeHead(200, {'Content-Type': 'text/xml'});
+  res.end(twiml.toString());
+});
+
+// route functions
+
+function homePage(req, res) {
+  res.render('master', {'thisPage':'partials/home.ejs', 'thisPageTitle':'Home'});
+}
+
+function userCreation(req, res) {
+  res.render('master', {'thisPage': 'partials/usercreation.ejs', 'thisPageTitle': 'User Creation'});
+}
+
+function addNew(req, res) {
+  let SQL = `INSERT INTO userinfo (username, siteaddress, sitecity, sitezipcode, sitephone, haveneed) VALUES ( $1, $2, $3, $4, $5, $6)`;
+
+  let values = [
+    req.body.username,
+    req.body.siteaddress,
+    req.body.sitecity,
+    req.body.sitezipcode,
+    req.body.sitephone,
+    req.body.haveneed
+  ];
+  client.query(SQL, values)
+    .then( () => {
+      res.render('master', {'thisPage':'partials/home.ejs', 'thisPageTitle':'Location Submitted'
+      });
+    })
+    .catch( () => {
+      pageError(res);
+    });
+}
+
+function pageError(res, err) {
+  if (err) { console.log(err); }
+  res.render('master', {'thisPage':'partials/error', 'thisPageTitle':'You found an Error'});
+}
+
