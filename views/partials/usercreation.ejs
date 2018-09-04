@@ -1,17 +1,17 @@
 <fieldset>
-  <form action="POST" id="userForm">
-    <input type="text" required autocomplete="off" placeholder="Name">
+  <form action="POST" id="userForm" action="/usercreation/submit">
+    <input name="UserName" id ="UserName" type="text" required autocomplete="off" placeholder="Name">
     <div class="addressInputs">
-      <input type="text" required autocomplete="off" placeholder="Street Address">
-      <input type="text" required autocomplete="off" placeholder="City">
-      <input type="text" required autocomplete="off" placeholder="ZIP Code">
+      <input name="SiteAddress" id ="SiteAddress" type="text" required autocomplete="off" placeholder="Street Address">
+      <input name="SiteCity" id ="SiteCity" type="text" required autocomplete="off" placeholder="City">
+      <input name="SiteZipcode" id ="SiteZipcode" type="text" required autocomplete="off" placeholder="ZIP Code">
     </div>
     <div>
-      <input type="radio" id="want">
+      <input name="wantOrNeed" id ="want" type="radio">
       <label for="want">Want Dirt</label>
     </div>
     <div>
-      <input type="radio" id="need">
+      <input name="wantOrNeed" id ="need" type="radio">
       <label for="need">Need Dirt</label>
     </div>
     <input type="submit" id="formSubmitButton" value="Submit">
