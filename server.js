@@ -37,6 +37,9 @@ app.post('/usercreation/submit', (req, res) => {
   addNew(req, res);
 });
 
+app.get('*', (req, res) => {
+  noPageError(res);
+});
 
 // twwilio query
 function twilioResponse (query) {
@@ -101,6 +104,11 @@ function addNew(req, res) {
 
 function pageError(res, err) {
   if (err) { console.log(err); }
-  res.render('master', {'thisPage':'partials/error', 'thisPageTitle':'You found an Error'});
+  res.render('master', {'thisPage':'partials/error', 'thisPageTitle':'Form Input Error'});
+}
+
+function noPageError(res, err) {
+  if (err) { console.log(err); }
+  res.render('master', {'thisPage':'partials/error', 'thisPageTitle':'Page Not Found'});
 }
 
