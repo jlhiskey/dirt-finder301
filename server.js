@@ -37,7 +37,6 @@ app.post('/usercreation/submit', (req, res) => {
 
 
 // twilio query
-// twilio query
 function twilioResponse (query) {
   console.log('Query', query);
   let SQL = `SELECT * FROM userinfo WHERE sitezipcode = $1`;
