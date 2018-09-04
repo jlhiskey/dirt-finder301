@@ -9,6 +9,8 @@ const app = express();
 const conString = process.env.DATABASE_URL;
 
 app.use(express.urlencoded({extended:true}));
+app.use(express.json());
+
 app.listen(PORT, () => console.log('Server is up on ', PORT));
 
 const client = new pg.Client(conString);
@@ -31,11 +33,32 @@ app.post('/usercreation/submit', (req, res) => {
   addNew(req, res);
 });
 
+
+// twwilio query
+function twilioResponse (query) {
+  console.log('Query', query);
+  let SQL = `SELECT * FROM userinfo WHERE sitezipcode = $1`;
+
+  let values = [ query.zip ];
+
+  return client.query(SQL, values);
+}
+
 // twilio sms response
 app.post('/sms', (req, res) => {
-  const twiml = new MessagingResponse();
 
-  twiml.message('The Robots are coming! Head for the hills!');
+  twilioResponse(req.body)
+    .then( data => {
+      console.log('data', data.rows);
+      let queryData = data.rows;
+      const twiml = new MessagingResponse();
+
+
+      twiml.message(`Here are the people near you: ${queryData}`);
+      res.writeHead(200, {'Content-Type': 'text/xml'});
+      res.end(twiml.toString());
+    });
+});
 
   res.writeHead(200, {'Content-Type': 'text/xml'});
   res.end(twiml.toString());
@@ -76,3 +99,4 @@ function pageError(res, err) {
   if (err) { console.log(err); }
   res.render('master', {'thisPage':'partials/error', 'thisPageTitle':'You found an Error'});
 }
+
