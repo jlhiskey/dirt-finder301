@@ -1,22 +1,22 @@
 <fieldset>
   <form method="POST" id="userForm" action="/usercreation/submit">
-    <input name="username" id ="username" type="text" required autocomplete="off" placeholder="Name">
+    <input name="username" id ="username" type="text" placeholder="Name" required maxlength="255"/>
     <div class="addressInputs">
-      <input name="siteaddress" id ="siteaddress" type="text" required autocomplete="off" placeholder="Street Address">
-      <input name="sitecity" id ="sitecity" type="text" required autocomplete="off" placeholder="City">
-      <input name="sitezipcode" id ="sitezipcode" type="text" required autocomplete="off" placeholder="ZIP Code">
+      <input name="siteaddress" id ="siteaddress" type="text" placeholder="Street Address" required maxlength="255"/>
+      <input name="sitecity" id ="sitecity" type="text"   placeholder="City" required maxlength="255"/>
+      <input name="sitezipcode" id ="sitezipcode" type="number" placeholder="ZIP Code" required max="99999"/>
     </div>
     <div>
-      <input name="sitephone" id ="sitephone" type="number" required autocomplete="off" placeholder="Phone Number">
+      <input name="sitephone" id ="sitephone" type="number" placeholder="Phone Number" required max="99999999999"/> 
     </div>
     <div>
-      <input name="haveneed" id ="want" type="radio" value="want">
+      <input name="haveneed" id ="want" type="radio" value="want"/>
       <label for="want">Want Dirt</label>
     </div>
     <div>
-      <input name="haveneed" id ="need" type="radio" value="need">
+      <input name="haveneed" id ="need" type="radio" value="need"/>
       <label for="need">Need Dirt</label>
     </div>
-    <input type="submit" id="formSubmitButton" value="Submit">
+    <input type="submit" id="formSubmitButton" value="Submit"/>
   </form>
 </fieldset>
