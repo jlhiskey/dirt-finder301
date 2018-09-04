@@ -37,6 +37,7 @@ app.post('/usercreation/submit', (req, res) => {
 
 
 // twilio query
+// twilio query
 function twilioResponse (query) {
   console.log('Query', query);
   let SQL = `SELECT * FROM userinfo WHERE sitezipcode = $1`;
@@ -55,17 +56,11 @@ app.post('/sms', (req, res) => {
       let queryData = JSON.stringify(data.rows[0]);
       const twiml = new MessagingResponse();
 
-
       twiml.message(`Here are the people near you: ${queryData}`);
       res.writeHead(200, {'Content-Type': 'text/xml'});
       res.end(twiml.toString());
     });
 });
-
-  res.writeHead(200, {'Content-Type': 'text/xml'});
-  res.end(twiml.toString());
-});
-
 // route functions
 
 function homePage(req, res) {
