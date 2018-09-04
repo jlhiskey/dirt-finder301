@@ -27,6 +27,10 @@ app.get('/usercreation', (req, res) => {
   userCreation(req, res);
 });
 
+app.get('/about', (req, res) => {
+  aboutUs(req, res);
+});
+
 app.post('/usercreation/submit', (req, res) => {
   addNew(req, res);
 });
@@ -51,6 +55,10 @@ function userCreation(req, res) {
   res.render('master', {'thisPage': 'partials/usercreation.ejs', 'thisPageTitle': 'User Creation'});
 }
 
+function aboutUs(req, res) {
+  res.render('master', {'thisPage': 'partials/about.ejs', 'thisPageTitle':'About Us'});
+}
+
 function addNew(req, res) {
   let SQL = `INSERT INTO userinfo (username, siteaddress, sitecity, sitezipcode, sitephone, haveneed) VALUES ( $1, $2, $3, $4, $5, $6)`;
 
@@ -64,7 +72,7 @@ function addNew(req, res) {
   ];
   client.query(SQL, values)
     .then( () => {
-      res.render('master', {'thisPage':'partials/home.ejs', 'thisPageTitle':'Location Submitted'
+      res.render('master', {'thisPage':'partials/home.ejs', 'thisPageTitle':'Your Location was Submitted'
       });
     })
     .catch( () => {
