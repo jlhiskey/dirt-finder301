@@ -8,17 +8,25 @@ const bodyParser = require('body-parser');
 const PORT = process.env.PORT || 3000;
 const app = express();
 const conString = process.env.DATABASE_URL;
+const googleMaps = require('@google/maps');
 
 app.use(bodyParser.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({
+  extended: true
+}));
 app.use(express.json());
-app.use( express.static( 'public' ) );
+app.use(express.static('public'));
 
 app.listen(PORT, () => console.log('Server is up on ', PORT));
 
 const client = new pg.Client(conString);
 
 client.connect();
+
+const googleMapsClient = googleMaps.createClient({
+  key: process.env.GOOGLEMAPS_APIKEY,
+  Promise: Promise
+});
 
 app.set('view engine', 'ejs');
 
@@ -34,6 +42,10 @@ app.get('/usercreation', (req, res) => {
 
 app.get('/about', (req, res) => {
   aboutUs(req, res);
+});
+
+app.get('/map', (req, res) => {
+  getCoords(req, res);
 });
 
 app.post('/usercreation/submit', (req, res) => {
@@ -66,11 +78,13 @@ app.get('*', (req, res) => {
 // 2018-09-05T00:12:04.794497+00:00 app[web.1]: ApiVersion: '2010-04-01' }
 // 2018-09-05T00:12:04.796588+00:00 app[web.1]: data undefined
 
-function twilioResponse (query) {
+function twilioResponse(query) {
   console.log('Query', query);
   let SQL = `SELECT * FROM userinfo WHERE sitezipcode = $1`;
 
+
   let values = [ query.Body ];
+
 
   return client.query(SQL, values);
 }
@@ -79,15 +93,19 @@ function twilioResponse (query) {
 app.post('/sms', (req, res) => {
 
   twilioResponse(req.body)
-    .then( data => {
+    .then(data => {
       // let queryData = JSON.stringify(data.rows[0]);
       console.log(data.rows[0].username);
       const twiml = new MessagingResponse();
       console.log(data.rows.length);
+
       for(var i=0; i<data.rows.length; i++) {
         twiml.message(`Here are the people near you:` + `\n` + `Name: ${data.rows[i].username}\n` + `Address: ${data.rows[i].siteaddress}\n` + `City: ${data.rows[i].sitecity}\n` + `Zip: ${data.rows[i].sitezipcode}\n` + `Phone: ${data.rows[i].sitephone}\n` + `Have or Need: ${data.rows[i].haveneed}\n`+ `Soil Type: ${data.rows[i].soiltype}\n`);
+
       }
-      res.writeHead(200, {'Content-Type': 'text/xml'});
+      res.writeHead(200, {
+        'Content-Type': 'text/xml'
+      });
       res.end(twiml.toString());
     });
 });
@@ -95,15 +113,24 @@ app.post('/sms', (req, res) => {
 // route functions
 
 function homePage(req, res) {
-  res.render('master', {'thisPage':'partials/home.ejs', 'thisPageTitle':'Home'});
+  res.render('master', {
+    'thisPage': 'partials/home.ejs',
+    'thisPageTitle': 'Home'
+  });
 }
 
 function userCreation(req, res) {
-  res.render('master', {'thisPage': 'partials/usercreation.ejs', 'thisPageTitle': 'User Creation'});
+  res.render('master', {
+    'thisPage': 'partials/usercreation.ejs',
+    'thisPageTitle': 'User Creation'
+  });
 }
 
 function aboutUs(req, res) {
-  res.render('master', {'thisPage': 'partials/about.ejs', 'thisPageTitle':'About Us'});
+  res.render('master', {
+    'thisPage': 'partials/about.ejs',
+    'thisPageTitle': 'About Us'
+  });
 }
 
 function addNew(req, res) {
@@ -121,22 +148,64 @@ function addNew(req, res) {
   console.log('values=',values);
   
   client.query(SQL, values)
-    .then( () => {
-      res.render('master', {'thisPage':'partials/home.ejs', 'thisPageTitle':'Your Location was Submitted'
+    .then(() => {
+      res.render('master', {
+        'thisPage': 'partials/home.ejs',
+        'thisPageTitle': 'Your Location was Submitted'
       });
     })
-    .catch( () => {
+    .catch(() => {
       pageError(res);
     });
 }
 
+//geocode function
+function getCoords(req, res) {
+  let SQL = `SELECT siteaddress, sitecity, sitezipcode FROM userinfo`;
+  client.query(SQL)
+    .then( data => {
+      let geoData = data.rows; 
+      console.log('geodata', geoData);    
+      geoData.forEach( (element) => {
+        console.log('element', element.siteaddress);
+        googleMapsClient.geocode({
+          address: `${element.siteaddress}, ${element.sitecity}, ${element.sitezipcode}`//add siteaddress, sitecity, sitezipcode
+        })
+          .asPromise()
+          .then((res) => {
+            console.log(res.json.results);
+          })
+          .then(
+            res.render('master', {
+              'thisPage': 'partials/map.ejs',
+              'thisPageTitle': 'Dirt Finder Map'
+            })
+          )
+          .catch(() => {
+            pageError(res);
+          });    
+      });
+    }); 
+      
+}
+
+
 function pageError(res, err) {
-  if (err) { console.log(err); }
-  res.render('master', {'thisPage':'partials/error', 'thisPageTitle':'Form Input Error'});
+  if (err) {
+    console.log(err);
+  }
+  res.render('master', {
+    'thisPage': 'partials/error',
+    'thisPageTitle': 'Form Input Error'
+  });
 }
 
 function noPageError(res, err) {
-  if (err) { console.log(err); }
-  res.render('master', {'thisPage':'partials/error', 'thisPageTitle':'Page Not Found'});
+  if (err) {
+    console.log(err);
+  }
+  res.render('master', {
+    'thisPage': 'partials/error',
+    'thisPageTitle': 'Page Not Found'
+  });
 }
-
