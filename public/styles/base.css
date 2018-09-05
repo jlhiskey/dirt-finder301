@@ -1,0 +1,36 @@
+body {
+  background-color: #e9e7ef;
+  color: rgb(0, 0, 0);
+  font-family: 'Oswald', sans-serif;
+  font-size: 20px;
+}
+
+img {
+  width: 75%;
+}
+
+h2 {
+  font-family: 'Amatic SC', cursive;
+  font-weight: 700;
+}
+
+a, a:hover, a:active, a:visited {
+  color: white;
+  font-family: 'Amatic SC', cursive;
+  text-decoration: none;
+}
+a.nav-links {
+  background-color: #05090a;
+}
+
+a.success {
+  color: #05090a;
+}
+
+input {
+  display: block;
+  font-size: small;
+  line-height: 3em;
+  margin-bottom: 15px;
+  width: 300px;
+}

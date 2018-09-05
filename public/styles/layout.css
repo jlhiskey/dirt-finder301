@@ -1,0 +1,61 @@
+.container {
+  margin: 0 auto;
+  max-width: 768px;
+  width: 100%;
+}
+
+.description {
+  line-height: 1.5em;
+}
+
+.links {
+  background-color: #05090a;
+  display: none;
+  font-size: 2em;
+  text-align: center;
+  width: 100%;
+  padding-bottom: 10px;
+}
+
+.links-active {
+  background-color: #05090a;
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+  padding-bottom: 15px;
+  z-index: 1;
+}
+
+@media only screen and (min-width: 768px) {
+  .burger {
+    display: none
+  }
+  .links {
+    display: inline;
+    left: 365px;
+    padding-right: 20px;
+    position: relative;
+    top: -60px;
+  }
+  span {
+    display: none;
+  }
+}
+
+.new-book-form {
+  margin-left: 20px;
+}
+
+.add-button {
+  background-color: black;
+  color: white;
+  font-family: 'Amatic SC', cursive;
+  font-size: large;
+  height: 40px;
+  width: 94px;
+}
+
+footer {
+  margin-top: 20%;
+  text-align: center;
+}

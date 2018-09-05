@@ -1,0 +1,143 @@
+.title {
+  background-color: #05090a;
+  color: white;
+  font-family: 'Amatic SC', cursive;
+  font-size: 2em;
+  padding: .5em;
+  overflow: hidden;
+}
+
+.title h1 {
+  font-family: 'Amatic SC', cursive;
+  float: left;
+  margin-top: 5px;
+}
+
+#burger {
+  display: block;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  cursor: pointer;
+  right: 30px;
+  top: 15px;
+}
+
+#burger span {
+  background: rgb(214, 118, 39);
+  height: 2px;
+  left: 0px;
+  position: absolute;
+  top: 24px;
+  transition: all 0.1s ease-out;
+  transition-delay: 0.1s;
+  width: 50px;
+}
+
+#burger span:before, #burger span:after {
+  background: rgb(214, 118, 39);
+  content: '';
+  display: block;
+  height: 2px;
+  left: 0px;
+  position: absolute;
+  transform-origin: center;
+  transition: all 0.2s ease-out;
+  width: 50px;
+}
+#burger span:before {
+  top: -10px;
+}
+#burger span:after {
+  top: 10px;
+}
+#burger:hover span:before {
+  top: -13px;
+}
+#burger:hover span:after {
+  top: 13px;
+}
+#burger.active span {
+  height: 0px;
+  transition: all 0.1s ease-out;
+  
+}
+#burger.active span:before {
+  top: 0px;
+  transform: rotate(135deg);
+}
+#burger.active span:after {
+  top: 0px;
+  transform: rotate(-135deg);
+}
+
+.icon-menu.navigation {
+  text-decoration: none;
+}
+
+.page-title {
+  background-color: #656171;
+  font-size: 1.2em;
+  padding: .5em;
+  text-align: center;
+}
+
+.book-card {
+  background: rgba(255, 255, 255, .5);
+  border-radius: 2px;
+  box-shadow: 2px 2px 2px #05090a;
+  padding: 1em;
+  margin: 1em 0;
+  text-align: center;
+}
+
+.book-card img {
+  box-shadow: 2px 2px 3px #05090a;
+  width: 200px;
+}
+
+.book-card h1,
+.book-card p {
+  margin: .5em 0;
+}
+
+.book-card h1 {
+  color: rgb(192, 117, 56);
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.book-card .author {
+  font-style: italic;
+}
+
+.book-card .submit {
+  background-color: rgb(214, 118, 39);
+  border-radius: 2px;
+  box-shadow: 2px 2px 3px #05090a;
+  display: block;
+  margin: 1em auto;
+  padding: 1em 1.5em;
+  text-decoration: none;
+}
+
+.book-card .submit:hover {
+  background-color: #05090a;
+}
+
+.book_description {
+  background: rgba(255, 255, 255, .2);
+  border: 1px solid rgba(0, 0, 0, .1);
+  margin: 2em;
+  padding: 2em;
+}
+
+.book_description p {
+  line-height: 1.5;
+  text-align: justify;
+}
+
+.isbn {
+  font-size: .8em;
+  font-style: italic;
+}
