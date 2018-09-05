@@ -12,6 +12,7 @@ const conString = process.env.DATABASE_URL;
 app.use(bodyParser.json());
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
+app.use( express.static( 'public' ) );
 
 app.listen(PORT, () => console.log('Server is up on ', PORT));
 
