@@ -31,10 +31,17 @@ app.get('/usercreation', (req, res) => {
   userCreation(req, res);
 });
 
+app.get('/about', (req, res) => {
+  aboutUs(req, res);
+});
+
 app.post('/usercreation/submit', (req, res) => {
   addNew(req, res);
 });
 
+app.get('*', (req, res) => {
+  noPageError(res);
+});
 
 // twilio query
 // 2018-09-05T00:12:04.794443+00:00 app[web.1]: Query { ToCountry: 'US',
@@ -81,6 +88,7 @@ app.post('/sms', (req, res) => {
       res.end(twiml.toString());
     });
 });
+
 // route functions
 
 function homePage(req, res) {
@@ -89,6 +97,10 @@ function homePage(req, res) {
 
 function userCreation(req, res) {
   res.render('master', {'thisPage': 'partials/usercreation.ejs', 'thisPageTitle': 'User Creation'});
+}
+
+function aboutUs(req, res) {
+  res.render('master', {'thisPage': 'partials/about.ejs', 'thisPageTitle':'About Us'});
 }
 
 function addNew(req, res) {
@@ -104,7 +116,7 @@ function addNew(req, res) {
   ];
   client.query(SQL, values)
     .then( () => {
-      res.render('master', {'thisPage':'partials/home.ejs', 'thisPageTitle':'Location Submitted'
+      res.render('master', {'thisPage':'partials/home.ejs', 'thisPageTitle':'Your Location was Submitted'
       });
     })
     .catch( () => {
@@ -114,6 +126,11 @@ function addNew(req, res) {
 
 function pageError(res, err) {
   if (err) { console.log(err); }
-  res.render('master', {'thisPage':'partials/error', 'thisPageTitle':'You found an Error'});
+  res.render('master', {'thisPage':'partials/error', 'thisPageTitle':'Form Input Error'});
+}
+
+function noPageError(res, err) {
+  if (err) { console.log(err); }
+  res.render('master', {'thisPage':'partials/error', 'thisPageTitle':'Page Not Found'});
 }
 
