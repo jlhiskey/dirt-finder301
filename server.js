@@ -82,7 +82,9 @@ function twilioResponse(query) {
   console.log('Query', query);
   let SQL = `SELECT * FROM userinfo WHERE sitezipcode = $1`;
 
-  let values = [query.FromZip];
+
+  let values = [ query.Body ];
+
 
   return client.query(SQL, values);
 }
@@ -96,8 +98,10 @@ app.post('/sms', (req, res) => {
       console.log(data.rows[0].username);
       const twiml = new MessagingResponse();
       console.log(data.rows.length);
-      for (var i = 0; i < data.rows.length; i++) {
-        twiml.message(`Here are the people near you:` + `\n` + `Name: ${data.rows[i].username}\n` + `Address: ${data.rows[i].siteaddress}\n` + `City: ${data.rows[i].sitecity}\n` + `Zip: ${data.rows[i].sitezipcode}\n` + `Phone: ${data.rows[i].sitephone}\n`);
+
+      for(var i=0; i<data.rows.length; i++) {
+        twiml.message(`Here are the people near you:` + `\n` + `Name: ${data.rows[i].username}\n` + `Address: ${data.rows[i].siteaddress}\n` + `City: ${data.rows[i].sitecity}\n` + `Zip: ${data.rows[i].sitezipcode}\n` + `Phone: ${data.rows[i].sitephone}\n` + `Have or Need: ${data.rows[i].haveneed}\n`+ `Soil Type: ${data.rows[i].soiltype}\n`);
+
       }
       res.writeHead(200, {
         'Content-Type': 'text/xml'
@@ -130,7 +134,7 @@ function aboutUs(req, res) {
 }
 
 function addNew(req, res) {
-  let SQL = `INSERT INTO userinfo (username, siteaddress, sitecity, sitezipcode, sitephone, haveneed) VALUES ( $1, $2, $3, $4, $5, $6)`;
+  let SQL = `INSERT INTO userinfo (username, siteaddress, sitecity, sitezipcode, sitephone, haveneed, soiltype) VALUES ( $1, $2, $3, $4, $5, $6, $7)`;
 
   let values = [
     req.body.username,
@@ -138,8 +142,11 @@ function addNew(req, res) {
     req.body.sitecity,
     req.body.sitezipcode,
     req.body.sitephone,
-    req.body.haveneed
+    req.body.haveneed,
+    req.body.soiltype
   ];
+  console.log('values=',values);
+  
   client.query(SQL, values)
     .then(() => {
       res.render('master', {
