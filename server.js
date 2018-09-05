@@ -85,7 +85,7 @@ app.post('/sms', (req, res) => {
       const twiml = new MessagingResponse();
       console.log(data.rows.length);
       for(var i=0; i<data.rows.length; i++) {
-        twiml.message(`Here are the people near you:` + `\n` + `Name: ${data.rows[i].username}\n` + `Address: ${data.rows[i].siteaddress}\n` + `City: ${data.rows[i].sitecity}\n` + `Zip: ${data.rows[i].sitezipcode}\n` + `Phone: ${data.rows[i].sitephone}\n` + `Have or Need: ${data.rows[i].haveneed}\n`);
+        twiml.message(`Here are the people near you:` + `\n` + `Name: ${data.rows[i].username}\n` + `Address: ${data.rows[i].siteaddress}\n` + `City: ${data.rows[i].sitecity}\n` + `Zip: ${data.rows[i].sitezipcode}\n` + `Phone: ${data.rows[i].sitephone}\n` + `Have or Need: ${data.rows[i].haveneed}\n`+ `Soil Type: ${data.rows[i].soiltype}\n`);
       }
       res.writeHead(200, {'Content-Type': 'text/xml'});
       res.end(twiml.toString());
@@ -107,7 +107,7 @@ function aboutUs(req, res) {
 }
 
 function addNew(req, res) {
-  let SQL = `INSERT INTO userinfo (username, siteaddress, sitecity, sitezipcode, sitephone, haveneed) VALUES ( $1, $2, $3, $4, $5, $6)`;
+  let SQL = `INSERT INTO userinfo (username, siteaddress, sitecity, sitezipcode, sitephone, haveneed, soiltype) VALUES ( $1, $2, $3, $4, $5, $6, $7)`;
 
   let values = [
     req.body.username,
@@ -115,8 +115,11 @@ function addNew(req, res) {
     req.body.sitecity,
     req.body.sitezipcode,
     req.body.sitephone,
-    req.body.haveneed
+    req.body.haveneed,
+    req.body.soiltype
   ];
+  console.log('values=',values);
+  
   client.query(SQL, values)
     .then( () => {
       res.render('master', {'thisPage':'partials/home.ejs', 'thisPageTitle':'Your Location was Submitted'
