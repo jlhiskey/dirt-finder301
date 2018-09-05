@@ -70,7 +70,7 @@ function twilioResponse (query) {
   console.log('Query', query);
   let SQL = `SELECT * FROM userinfo WHERE sitezipcode = $1`;
 
-  let values = [ query.FromZip ];
+  let values = [ query.Body ];
 
   return client.query(SQL, values);
 }
@@ -85,7 +85,7 @@ app.post('/sms', (req, res) => {
       const twiml = new MessagingResponse();
       console.log(data.rows.length);
       for(var i=0; i<data.rows.length; i++) {
-        twiml.message(`Here are the people near you:` + `\n` + `Name: ${data.rows[i].username}\n` + `Address: ${data.rows[i].siteaddress}\n` + `City: ${data.rows[i].sitecity}\n` + `Zip: ${data.rows[i].sitezipcode}\n` + `Phone: ${data.rows[i].sitephone}\n`);
+        twiml.message(`Here are the people near you:` + `\n` + `Name: ${data.rows[i].username}\n` + `Address: ${data.rows[i].siteaddress}\n` + `City: ${data.rows[i].sitecity}\n` + `Zip: ${data.rows[i].sitezipcode}\n` + `Phone: ${data.rows[i].sitephone}\n` + `Have or Need: ${data.rows[i].haveneed}\n`);
       }
       res.writeHead(200, {'Content-Type': 'text/xml'});
       res.end(twiml.toString());
