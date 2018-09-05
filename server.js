@@ -83,8 +83,10 @@ app.post('/sms', (req, res) => {
       // let queryData = JSON.stringify(data.rows[0]);
       console.log(data.rows[0].username);
       const twiml = new MessagingResponse();
-
-      twiml.message(`Here are the people near you:` + `\n` + `Name: ${data.rows[0].username}\n ` + `Address: ${data.rows[0].siteaddress}\n` + `City: ${data.rows[0].sitecity}\n` + `Zip: ${data.rows[0].sitezipcode}\n` + `Phone: ${data.rows[0].sitephone}\n`);
+      console.log(data.rows.length);
+      for(var i=0; i<data.rows.length; i++) {
+        twiml.message(`Here are the people near you:` + `\n` + `Name: ${data.rows[i].username}\n` + `Address: ${data.rows[i].siteaddress}\n` + `City: ${data.rows[i].sitecity}\n` + `Zip: ${data.rows[i].sitezipcode}\n` + `Phone: ${data.rows[i].sitephone}\n`);
+      }
       res.writeHead(200, {'Content-Type': 'text/xml'});
       res.end(twiml.toString());
     });
