@@ -12,6 +12,7 @@ const conString = process.env.DATABASE_URL;
 app.use(bodyParser.json());
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
+app.use( express.static( 'public' ) );
 
 app.listen(PORT, () => console.log('Server is up on ', PORT));
 
@@ -44,11 +45,32 @@ app.get('*', (req, res) => {
 });
 
 // twilio query
+// 2018-09-05T00:12:04.794443+00:00 app[web.1]: Query { ToCountry: 'US',
+// 2018-09-05T00:12:04.794467+00:00 app[web.1]: ToState: 'WA',
+// 2018-09-05T00:12:04.794470+00:00 app[web.1]: SmsMessageSid: 'SMa14e3f9abfef8cab54ce6deed151123c',
+// 2018-09-05T00:12:04.794472+00:00 app[web.1]: NumMedia: '0',
+// 2018-09-05T00:12:04.794474+00:00 app[web.1]: ToCity: 'SEATTLE',
+// 2018-09-05T00:12:04.794475+00:00 app[web.1]: FromZip: '98101',
+// 2018-09-05T00:12:04.794478+00:00 app[web.1]: SmsSid: 'SMa14e3f9abfef8cab54ce6deed151123c',
+// 2018-09-05T00:12:04.794479+00:00 app[web.1]: FromState: 'WA',
+// 2018-09-05T00:12:04.794481+00:00 app[web.1]: SmsStatus: 'received',
+// 2018-09-05T00:12:04.794483+00:00 app[web.1]: FromCity: 'SEATTLE',
+// 2018-09-05T00:12:04.794484+00:00 app[web.1]: Body: 'Zip:98021',
+// 2018-09-05T00:12:04.794486+00:00 app[web.1]: FromCountry: 'US',
+// 2018-09-05T00:12:04.794488+00:00 app[web.1]: To: '+12062036412',
+// 2018-09-05T00:12:04.794489+00:00 app[web.1]: ToZip: '98154',
+// 2018-09-05T00:12:04.794491+00:00 app[web.1]: NumSegments: '1',
+// 2018-09-05T00:12:04.794492+00:00 app[web.1]: MessageSid: 'SMa14e3f9abfef8cab54ce6deed151123c',
+// 2018-09-05T00:12:04.794494+00:00 app[web.1]: AccountSid: 'ACbe4e55ee7fea99a86a92088c8faa2b3b',
+// 2018-09-05T00:12:04.794496+00:00 app[web.1]: From: '+12064739860',
+// 2018-09-05T00:12:04.794497+00:00 app[web.1]: ApiVersion: '2010-04-01' }
+// 2018-09-05T00:12:04.796588+00:00 app[web.1]: data undefined
+
 function twilioResponse (query) {
   console.log('Query', query);
   let SQL = `SELECT * FROM userinfo WHERE sitezipcode = $1`;
 
-  let values = [ query.zip ];
+  let values = [ query.FromZip ];
 
   return client.query(SQL, values);
 }
