@@ -4,11 +4,15 @@ require('dotenv').config();
 const pg = require('pg');
 const express = require('express');
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
+const bodyParser = require('body-parser');
 const PORT = process.env.PORT || 3000;
 const app = express();
 const conString = process.env.DATABASE_URL;
 
+app.use(bodyParser.json());
 app.use(express.urlencoded({extended:true}));
+app.use(express.json());
+
 app.listen(PORT, () => console.log('Server is up on ', PORT));
 
 const client = new pg.Client(conString);
@@ -23,6 +27,46 @@ app.get('/', (req, res) => {
   homePage(req, res);
 });
 
+app.get('/usercreation', (req, res) => {
+  userCreation(req, res);
+});
+
+app.get('/about', (req, res) => {
+  aboutUs(req, res);
+});
+
+app.post('/usercreation/submit', (req, res) => {
+  addNew(req, res);
+});
+
+app.get('*', (req, res) => {
+  noPageError(res);
+});
+
+// twilio query
+function twilioResponse (query) {
+  console.log('Query', query);
+  let SQL = `SELECT * FROM userinfo WHERE sitezipcode = $1`;
+
+  let values = [ query.zip ];
+
+  return client.query(SQL, values);
+}
+
+// twilio sms response
+app.post('/sms', (req, res) => {
+
+  twilioResponse(req.body)
+    .then( data => {
+      console.log('data', data.rows[0]);
+      let queryData = JSON.stringify(data.rows[0]);
+      const twiml = new MessagingResponse();
+
+      twiml.message(`Here are the people near you: ${queryData}`);
+      res.writeHead(200, {'Content-Type': 'text/xml'});
+      res.end(twiml.toString());
+    });
+});
 
 // route functions
 
@@ -30,12 +74,42 @@ function homePage(req, res) {
   res.render('master', {'thisPage':'partials/home.ejs', 'thisPageTitle':'Home'});
 }
 
-// twilio sms response
-app.post('/sms', (req, res) => {
-  const twiml = new MessagingResponse();
+function userCreation(req, res) {
+  res.render('master', {'thisPage': 'partials/usercreation.ejs', 'thisPageTitle': 'User Creation'});
+}
 
-  twiml.message('The Robots are coming! Head for the hills!');
+function aboutUs(req, res) {
+  res.render('master', {'thisPage': 'partials/about.ejs', 'thisPageTitle':'About Us'});
+}
 
-  res.writeHead(200, {'Content-Type': 'text/xml'});
-  res.end(twiml.toString());
-});
+function addNew(req, res) {
+  let SQL = `INSERT INTO userinfo (username, siteaddress, sitecity, sitezipcode, sitephone, haveneed) VALUES ( $1, $2, $3, $4, $5, $6)`;
+
+  let values = [
+    req.body.username,
+    req.body.siteaddress,
+    req.body.sitecity,
+    req.body.sitezipcode,
+    req.body.sitephone,
+    req.body.haveneed
+  ];
+  client.query(SQL, values)
+    .then( () => {
+      res.render('master', {'thisPage':'partials/home.ejs', 'thisPageTitle':'Your Location was Submitted'
+      });
+    })
+    .catch( () => {
+      pageError(res);
+    });
+}
+
+function pageError(res, err) {
+  if (err) { console.log(err); }
+  res.render('master', {'thisPage':'partials/error', 'thisPageTitle':'Form Input Error'});
+}
+
+function noPageError(res, err) {
+  if (err) { console.log(err); }
+  res.render('master', {'thisPage':'partials/error', 'thisPageTitle':'Page Not Found'});
+}
+
