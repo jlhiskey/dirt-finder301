@@ -1,17 +1,43 @@
 body {
-  background-color: #e9e7ef;
-  color: rgb(0, 0, 0);
+  width: 90%;
+  margin: 0 auto;
+  background-color: rgb(145, 241, 121);
   font-family: 'Oswald', sans-serif;
-  font-size: 20px;
+  font-size: 1.15em;
 }
 
-img {
-  width: 75%;
+header {
+  background-color: rgb(124, 63, 34); 
+  text-align: center;
+}
+
+h1 {
+  font-size: 2em;
 }
 
 h2 {
-  font-family: 'Amatic SC', cursive;
-  font-weight: 700;
+  font-size: 1.75em;
+}
+
+p {
+  margin-top: 15px;
+}
+
+img {
+  width: 300px;
+  float: right;
+  margin-left: 10px;
+}
+
+fieldset {
+  border: solid black 2px;
+  padding: 10px;
+  width: 70%;
+  margin: 0 auto;
+}
+
+input {
+  margin-top: 15px;
 }
 
 a, a:hover, a:active, a:visited {
@@ -19,18 +45,38 @@ a, a:hover, a:active, a:visited {
   font-family: 'Amatic SC', cursive;
   text-decoration: none;
 }
-a.nav-links {
-  background-color: #05090a;
+
+.formDiv {
+  margin: 0 auto;
+  width: fit-content;
+  text-align: center;
 }
 
-a.success {
-  color: #05090a;
+.radioDiv {
+  display: inline-block;
 }
 
-input {
-  display: block;
-  font-size: small;
-  line-height: 3em;
-  margin-bottom: 15px;
-  width: 300px;
+.navLink {
+  display: inline-block;
+  margin-left: 5%;
+  margin-right: 2%;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  font-size: 1.25em;
+}
+
+.page-title {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.aboutUsSection {
+  border: solid black 2px;
+  background-color:saddlebrown;
+  padding: 10px;
+  margin: 0 auto;
+  margin-top: 25px;
+  width: 90%;
+  display: table;
 }
