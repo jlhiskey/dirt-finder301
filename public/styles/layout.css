@@ -1,0 +1,43 @@
+.container {
+  margin: 0 auto;
+  max-width: 768px;
+  width: 100%;
+}
+
+.description {
+  line-height: 1.5em;
+}
+
+.links {
+  background-color: #0f6146;
+  display: none;
+  font-size: 2em;
+  text-align: center;
+  width: 100%;
+  padding-bottom: 10px;
+}
+
+.links-active {
+  background-color: #0f6146;
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+  padding-bottom: 15px;
+  z-index: 1;
+}
+
+@media only screen and (min-width: 768px) {
+  .burger {
+    display: none
+  }
+  .links {
+    display: inline;
+    left: 365px;
+    padding-right: 20px;
+    position: relative;
+    top: -60px;
+  }
+  span {
+    display: none;
+  }
+}

@@ -1,9 +1,13 @@
-<nav>
-    <input type="checkbox" id="burger" name="burger">
-    <label for="burger" class="backhoe"></label>
-  <ul>
-    <li class="navLink"><a href="/">Home</a></li>
-    <li class="navLink"><a href="/usercreation">Have/Need Dirt</a></li>
-    <li class="navLink"><a href="/about">About Us</a></li>
-  </ul>
+<nav class="nav">
+	<a id="burger"><span></span></a>
+	<a class="links" href="/">Home</a>
+	<a class="links" href="/usercreation">Send a request</a>
+	<a class="links" href="/about">About Us</a>
 </nav>
+<script type="text/javascript">
+	let burger = document.getElementById('burger');
+	burger.addEventListener('click', function () {
+		burger.classList.toggle('active');
+		$('.links').toggleClass('links-active');
+	});
+</script>

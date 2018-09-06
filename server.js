@@ -80,13 +80,21 @@ app.get('*', (req, res) => {
 
 function twilioResponse(query) {
   console.log('Query', query);
-  let SQL = `SELECT * FROM userinfo WHERE sitezipcode = $1`;
 
+  let body = [ query.Body ];
+  let stringify = body.toString();
+  let split = stringify.split(' ');
 
-  let values = [ query.Body ];
-
-
-  return client.query(SQL, values);
+  if (split.length === 1) {
+    let SQL = `SELECT * FROM userinfo WHERE sitezipcode = $1`;
+    let values = [ split[0] ];
+    return client.query(SQL, values);
+  }
+  if (split.length === 2) {
+    let SQL = `SELECT * FROM userinfo WHERE sitezipcode = $1 AND soiltype = $2`;
+    let values = [ split[0], split[1] ];
+    return client.query(SQL, values);
+  }
 }
 
 // twilio sms response
@@ -185,8 +193,8 @@ function getCoords(req, res) {
             pageError(res);
           });    
       });
-    }); 
-      
+    });
+
 }
 
 

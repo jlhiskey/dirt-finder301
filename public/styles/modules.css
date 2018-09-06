@@ -9,7 +9,7 @@
 }
 
 #burger span {
-  background: rgb(214, 118, 39);
+  background: #b3a9a9;
   height: 2px;
   left: 0px;
   position: absolute;
@@ -20,7 +20,7 @@
 }
 
 #burger span:before, #burger span:after {
-  background: rgb(214, 118, 39);
+  background: #b3a9a9;
   content: '';
   display: block;
   height: 2px;
@@ -30,18 +30,23 @@
   transition: all 0.2s ease-out;
   width: 50px;
 }
+
 #burger span:before {
   top: -10px;
 }
+
 #burger span:after {
   top: 10px;
 }
+
 #burger:hover span:before {
   top: -13px;
 }
+
 #burger:hover span:after {
   top: 13px;
 }
+
 #burger.active span {
   height: 0px;
   transition: all 0.1s ease-out;
@@ -51,7 +56,39 @@
   top: 0px;
   transform: rotate(135deg);
 }
+
 #burger.active span:after {
   top: 0px;
   transform: rotate(-135deg);
+}
+
+.title {
+  background-color: #0f6146;
+  color: #b3a9a9;
+  font-family: 'Anton', sans-serif;
+  font-size: 2em;
+  padding: .5em;
+  overflow: hidden;
+}
+
+.title h1 {
+  font-family: 'Anton', sans-serif;
+  float: left;
+  margin-top: 5px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="url"],
+textarea {
+  font-family: 'Roboto', sans-serif; 
+  font-size: 1em;
+  margin: .5em 0;
+  padding: .5em;
+  width: 90%;
+}
+
+input[type="text"]:focus:invalid {
+  border: 1px solid red;
+  color: red;
 }

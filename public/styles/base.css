@@ -1,32 +1,39 @@
 body {
-  width: 90%;
+  background-color: #b3a9a9;
   margin: 0 auto;
-  background-color: rgb(145, 241, 121);
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 1.15em;
 }
 
 header {
-  background-color: rgb(124, 63, 34); 
+  background-color: #0f6146; 
   text-align: center;
 }
 
 h1 {
   font-size: 2em;
+  font-family: 'Anton', sans-serif;
+
 }
 
 h2 {
   font-size: 1.75em;
+  font-family: 'Anton', sans-serif;
+
 }
 
 p {
   margin-top: 15px;
+  width: 75%;
+  margin: 0 auto;
+  padding: 10px;
 }
 
 img {
   width: 300px;
   float: right;
   margin-left: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.404);
 }
 
 fieldset {
@@ -41,8 +48,8 @@ input {
 }
 
 a, a:hover, a:active, a:visited {
-  color: white;
-  font-family: 'Amatic SC', cursive;
+  color: #b3a9a9;
+  font-family: 'Roboto', sans-serif;
   text-decoration: none;
 }
 
@@ -73,7 +80,7 @@ a, a:hover, a:active, a:visited {
 
 .aboutUsSection {
   border: solid black 2px;
-  background-color:saddlebrown;
+  background-color:rgb(172, 122, 86);
   padding: 10px;
   margin: 0 auto;
   margin-top: 25px;
