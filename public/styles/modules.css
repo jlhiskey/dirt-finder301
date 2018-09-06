@@ -1,67 +1,29 @@
 #burger {
   display: block;
-  width: 50px;
-  height: 50px;
-  position: absolute;
+  width: 75px;
+  position: relative;
   cursor: pointer;
-  right: 30px;
-  top: 15px;
+}
+#burger img {
+  float: right;
+  margin-left: 10px;
+  border: none !important;
+  position: absolute;
+  top: -53px;
+  width: 75px;
+  right: -633px;
 }
 
-#burger span {
-  background: #b3a9a9;
-  height: 2px;
-  left: 0px;
+.backhoe a {
   position: absolute;
   top: 24px;
-  transition: all 0.1s ease-out;
-  transition-delay: 0.1s;
-  width: 50px;
-}
-
-#burger span:before, #burger span:after {
-  background: #b3a9a9;
-  content: '';
-  display: block;
-  height: 2px;
   left: 0px;
-  position: absolute;
-  transform-origin: center;
-  transition: all 0.2s ease-out;
-  width: 50px;
+  height: 50px;
 }
-
-#burger span:before {
-  top: -10px;
+.backhoe.active img {
+  -webkit-transform: scaleX(-1);
+  transition: all 0.3s ease-in-out;
 }
-
-#burger span:after {
-  top: 10px;
-}
-
-#burger:hover span:before {
-  top: -13px;
-}
-
-#burger:hover span:after {
-  top: 13px;
-}
-
-#burger.active span {
-  height: 0px;
-  transition: all 0.1s ease-out;
-  
-}
-#burger.active span:before {
-  top: 0px;
-  transform: rotate(135deg);
-}
-
-#burger.active span:after {
-  top: 0px;
-  transform: rotate(-135deg);
-}
-
 .title {
   background-color: #0f6146;
   color: #b3a9a9;
