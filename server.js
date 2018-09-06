@@ -10,6 +10,8 @@ const app = express();
 const conString = process.env.DATABASE_URL;
 const googleMaps = require('@google/maps');
 
+// let pinsArray = [];
+
 app.use(bodyParser.json());
 app.use(express.urlencoded({
   extended: true
@@ -44,9 +46,14 @@ app.get('/about', (req, res) => {
   aboutUs(req, res);
 });
 
-app.get('/map', (req, res) => {
-  getCoords(req, res);
+// app.get('/map', (req, res) => {
+//   getCoords(req, res);
+// });
+
+app.get('/userlocations', (req, res) => {
+  userLocations(req, res)
 });
+
 
 app.post('/usercreation/submit', (req, res) => {
   addNew(req, res);
@@ -141,8 +148,9 @@ function aboutUs(req, res) {
   });
 }
 
+
 function addNew(req, res) {
-  let SQL = `INSERT INTO userinfo (username, siteaddress, sitecity, sitezipcode, sitephone, haveneed, soiltype) VALUES ( $1, $2, $3, $4, $5, $6, $7)`;
+  let SQL = `INSERT INTO userinfo (username, siteaddress, sitecity, sitezipcode, sitephone, haveneed, soiltype, userkey) VALUES ( $1, $2, $3, $4, $5, $6, $7, $8)`;
 
   let values = [
     req.body.username,
@@ -151,9 +159,10 @@ function addNew(req, res) {
     req.body.sitezipcode,
     req.body.sitephone,
     req.body.haveneed,
-    req.body.soiltype
+    req.body.soiltype,
+    req.body.userkey
   ];
-  console.log('values=',values);
+
 
   client.query(SQL, values)
     .then(() => {
@@ -167,6 +176,11 @@ function addNew(req, res) {
     });
 }
 
+
+function userLocations (req, res){
+
+  let SQL = ``
+  }
 //geocode function
 function getCoords(req, res) {
   let SQL = `SELECT siteaddress, sitecity, sitezipcode FROM userinfo`;
@@ -195,7 +209,48 @@ function getCoords(req, res) {
       });
     });
 
+
 }
+
+
+//geocode function
+// function getCoords(req, res) {
+//   let SQL = `SELECT siteaddress, sitecity, sitezipcode FROM userinfo`;
+//   client.query(SQL)
+//     .then( data => {
+//       let geoData = data.rows;
+//       geoData.forEach( (element) => {
+        
+//         googleMapsClient.geocode({
+//           address: `${element.siteaddress}, ${element.sitecity}, ${element.sitezipcode}`//add siteaddress, sitecity, sitezipcode
+//         })
+//           .asPromise()
+//           .then(
+//               res =>{
+//                 // Object.defineProperty(element, 'latlon', {
+//                 //   value: res.json.results[0].geometry.location,
+//                 //   writable: false
+//                 // });
+//                 Object.assign(,)
+//                 console.log('value',res.json.results[0].geometry.location);
+//               }
+
+                 
+//           )
+//           .catch(() => {
+//             pageError(res);
+//           });
+//       });
+//     })
+//     .then(res.render('master', {
+//       'thisPage': 'partials/map.ejs',
+//       'thisPageTitle': ''
+//     })
+//     )
+//     .catch(() => {
+//       pageError(res);
+//     });
+// }
 
 
 function pageError(res, err) {

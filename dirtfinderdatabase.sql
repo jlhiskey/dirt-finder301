@@ -7,5 +7,6 @@ CREATE TABLE userinfo (
   sitezipcode BIGINT,
   sitephone BIGINT,
   haveneed VARCHAR(10),
-  soiltype VARCHAR(15)
+  soiltype VARCHAR(15),
+  userkey BIGINT
 );
