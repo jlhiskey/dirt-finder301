@@ -1,0 +1,19 @@
+<section>
+    <% locations.forEach( location =>{ %>
+
+    <div class="location-card">
+        <ul>
+            <li>Site Name: <%= location.username %> </li>
+            <li>Site Address: <%= location.siteaddress %> </li>
+            <li>Site City: <%= location.sitecity %></li>
+            <li>Site Zipcode: <%= location.sitezipcode %> </li>
+            <li>Site Phone: <%= location.sitephone %> </li>
+            <li>Have or Want Dirt: <%= location.haveneed %></li>
+            <li>Soil Type: <%= location.soiltype %></li>
+        </ul>
+    </div>
+
+    <% }) %>
+
+
+</section>

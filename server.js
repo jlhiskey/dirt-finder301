@@ -8,9 +8,7 @@ const bodyParser = require('body-parser');
 const PORT = process.env.PORT || 3000;
 const app = express();
 const conString = process.env.DATABASE_URL;
-const googleMaps = require('@google/maps');
 
-// let pinsArray = [];
 
 app.use(bodyParser.json());
 app.use(express.urlencoded({
@@ -24,11 +22,6 @@ app.listen(PORT, () => console.log('Server is up on ', PORT));
 const client = new pg.Client(conString);
 
 client.connect();
-
-const googleMapsClient = googleMaps.createClient({
-  key: process.env.GOOGLEMAPS_APIKEY,
-  Promise: Promise
-});
 
 app.set('view engine', 'ejs');
 
@@ -46,12 +39,10 @@ app.get('/about', (req, res) => {
   aboutUs(req, res);
 });
 
-// app.get('/map', (req, res) => {
-//   getCoords(req, res);
-// });
 
-app.get('/userlocations', (req, res) => {
-  userLocations(req, res)
+
+app.get('/query/:userkey', (req, res) => {
+  getUserKey(req, res);
 });
 
 
@@ -63,28 +54,7 @@ app.get('*', (req, res) => {
   noPageError(res);
 });
 
-// twilio query
-// 2018-09-05T00:12:04.794443+00:00 app[web.1]: Query { ToCountry: 'US',
-// 2018-09-05T00:12:04.794467+00:00 app[web.1]: ToState: 'WA',
-// 2018-09-05T00:12:04.794470+00:00 app[web.1]: SmsMessageSid: 'SMa14e3f9abfef8cab54ce6deed151123c',
-// 2018-09-05T00:12:04.794472+00:00 app[web.1]: NumMedia: '0',
-// 2018-09-05T00:12:04.794474+00:00 app[web.1]: ToCity: 'SEATTLE',
-// 2018-09-05T00:12:04.794475+00:00 app[web.1]: FromZip: '98101',
-// 2018-09-05T00:12:04.794478+00:00 app[web.1]: SmsSid: 'SMa14e3f9abfef8cab54ce6deed151123c',
-// 2018-09-05T00:12:04.794479+00:00 app[web.1]: FromState: 'WA',
-// 2018-09-05T00:12:04.794481+00:00 app[web.1]: SmsStatus: 'received',
-// 2018-09-05T00:12:04.794483+00:00 app[web.1]: FromCity: 'SEATTLE',
-// 2018-09-05T00:12:04.794484+00:00 app[web.1]: Body: 'Zip:98021',
-// 2018-09-05T00:12:04.794486+00:00 app[web.1]: FromCountry: 'US',
-// 2018-09-05T00:12:04.794488+00:00 app[web.1]: To: '+12062036412',
-// 2018-09-05T00:12:04.794489+00:00 app[web.1]: ToZip: '98154',
-// 2018-09-05T00:12:04.794491+00:00 app[web.1]: NumSegments: '1',
-// 2018-09-05T00:12:04.794492+00:00 app[web.1]: MessageSid: 'SMa14e3f9abfef8cab54ce6deed151123c',
-// 2018-09-05T00:12:04.794494+00:00 app[web.1]: AccountSid: 'ACbe4e55ee7fea99a86a92088c8faa2b3b',
-// 2018-09-05T00:12:04.794496+00:00 app[web.1]: From: '+12064739860',
-// 2018-09-05T00:12:04.794497+00:00 app[web.1]: ApiVersion: '2010-04-01' }
-// 2018-09-05T00:12:04.796588+00:00 app[web.1]: data undefined
-
+//TWILIO
 function twilioResponse(query) {
   console.log('Query', query);
 
@@ -109,11 +79,7 @@ app.post('/sms', (req, res) => {
 
   twilioResponse(req.body)
     .then(data => {
-      // let queryData = JSON.stringify(data.rows[0]);
-      console.log(data.rows[0].username);
       const twiml = new MessagingResponse();
-      console.log(data.rows.length);
-
       for(var i=0; i<data.rows.length; i++) {
         twiml.message(`Here are the people near you:` + `\n` + `Name: ${data.rows[i].username}\n` + `Address: ${data.rows[i].siteaddress}\n` + `City: ${data.rows[i].sitecity}\n` + `Zip: ${data.rows[i].sitezipcode}\n` + `Phone: ${data.rows[i].sitephone}\n` + `Have or Need: ${data.rows[i].haveneed}\n`+ `Soil Type: ${data.rows[i].soiltype}\n`);
       }
@@ -149,6 +115,27 @@ function aboutUs(req, res) {
 }
 
 
+function getUserKey(req, res) {
+  let SQL = `SELECT * FROM userinfo WHERE userkey = $1 `;
+  let values = [
+    req.params.userkey
+  ];
+  client.query(SQL, values)
+    .then(
+      data => {
+        let userLocation = data.rows;
+        if (userLocation.length > 0){
+          res.render('master', {
+            locations:userLocation,
+            'thisPage': 'partials/query',
+            'thisPageTitle': 'User Locations:'
+          });
+        }
+      }
+    );
+}
+
+
 function addNew(req, res) {
   let SQL = `INSERT INTO userinfo (username, siteaddress, sitecity, sitezipcode, sitephone, haveneed, soiltype, userkey) VALUES ( $1, $2, $3, $4, $5, $6, $7, $8)`;
 
@@ -175,83 +162,6 @@ function addNew(req, res) {
       pageError(res);
     });
 }
-
-
-function userLocations (req, res){
-
-  let SQL = ``
-  }
-//geocode function
-function getCoords(req, res) {
-  let SQL = `SELECT siteaddress, sitecity, sitezipcode FROM userinfo`;
-  client.query(SQL)
-    .then( data => {
-      let geoData = data.rows;
-      console.log('geodata', geoData);
-      geoData.forEach( (element) => {
-        console.log('element', element.siteaddress);
-        googleMapsClient.geocode({
-          address: `${element.siteaddress}, ${element.sitecity}, ${element.sitezipcode}`//add siteaddress, sitecity, sitezipcode
-        })
-          .asPromise()
-          .then((res) => {
-            console.log(res.json.results);
-          })
-          .then(
-            res.render('master', {
-              'thisPage': 'partials/map.ejs',
-              'thisPageTitle': 'Dirt Finder Map'
-            })
-          )
-          .catch(() => {
-            pageError(res);
-          });
-      });
-    });
-
-
-}
-
-
-//geocode function
-// function getCoords(req, res) {
-//   let SQL = `SELECT siteaddress, sitecity, sitezipcode FROM userinfo`;
-//   client.query(SQL)
-//     .then( data => {
-//       let geoData = data.rows;
-//       geoData.forEach( (element) => {
-        
-//         googleMapsClient.geocode({
-//           address: `${element.siteaddress}, ${element.sitecity}, ${element.sitezipcode}`//add siteaddress, sitecity, sitezipcode
-//         })
-//           .asPromise()
-//           .then(
-//               res =>{
-//                 // Object.defineProperty(element, 'latlon', {
-//                 //   value: res.json.results[0].geometry.location,
-//                 //   writable: false
-//                 // });
-//                 Object.assign(,)
-//                 console.log('value',res.json.results[0].geometry.location);
-//               }
-
-                 
-//           )
-//           .catch(() => {
-//             pageError(res);
-//           });
-//       });
-//     })
-//     .then(res.render('master', {
-//       'thisPage': 'partials/map.ejs',
-//       'thisPageTitle': ''
-//     })
-//     )
-//     .catch(() => {
-//       pageError(res);
-//     });
-// }
-
 
 function pageError(res, err) {
   if (err) {
