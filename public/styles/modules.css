@@ -4,6 +4,7 @@
   position: relative;
   width: 75px;
 }
+
 #burger img {
   border: none !important;
   float: right;
@@ -20,10 +21,12 @@
   position: absolute;
   top: 24px;
 }
+
 .backhoe.active img {
   transition: all 0.3s ease-in-out;
   -webkit-transform: scaleX(-1);
 }
+
 .title {
   background-color: #0f6146;
   color: #b3a9a9;
