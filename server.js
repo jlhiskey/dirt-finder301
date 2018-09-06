@@ -130,7 +130,7 @@ function homePage(req, res) {
 function userCreation(req, res) {
   res.render('master', {
     'thisPage': 'partials/usercreation.ejs',
-    'thisPageTitle': 'User Creation'
+    'thisPageTitle': 'Add New Location'
   });
 }
 
