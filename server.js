@@ -80,14 +80,33 @@ app.get('*', (req, res) => {
 
 function twilioResponse(query) {
   console.log('Query', query);
-  let SQL = `SELECT * FROM userinfo WHERE sitezipcode = $1`;
 
+  let body = [ query.Body ];
+  let stringify = body.toString();
+  let split = stringify.split(' ');
 
-  let values = [ query.Body ];
-
-
-  return client.query(SQL, values);
+  if (split.length === 1) {
+    let SQL = `SELECT * FROM userinfo WHERE sitezipcode = $1`;
+    let values = [ split[0] ];
+    return client.query(SQL, values);
+  }
+  if (split.length === 2) {
+    let SQL = `SELECT * FROM userinfo WHERE sitezipcode = $1 AND soiltype = $2`;
+    let values = [ split[0], split[1] ];
+    return client.query(SQL, values);
+  }
 }
+
+
+
+//   let SQL = `SELECT * FROM userinfo WHERE sitezipcode = $1`;
+
+
+//   let values = [ query.Body ];
+
+
+//   return client.query(SQL, values);
+// }
 
 // twilio sms response
 app.post('/sms', (req, res) => {
@@ -146,7 +165,7 @@ function addNew(req, res) {
     req.body.soiltype
   ];
   console.log('values=',values);
-  
+
   client.query(SQL, values)
     .then(() => {
       res.render('master', {
@@ -164,8 +183,8 @@ function getCoords(req, res) {
   let SQL = `SELECT siteaddress, sitecity, sitezipcode FROM userinfo`;
   client.query(SQL)
     .then( data => {
-      let geoData = data.rows; 
-      console.log('geodata', geoData);    
+      let geoData = data.rows;
+      console.log('geodata', geoData);
       geoData.forEach( (element) => {
         console.log('element', element.siteaddress);
         googleMapsClient.geocode({
@@ -183,10 +202,10 @@ function getCoords(req, res) {
           )
           .catch(() => {
             pageError(res);
-          });    
+          });
       });
-    }); 
-      
+    });
+
 }
 
 
