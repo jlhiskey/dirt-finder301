@@ -1,41 +1,45 @@
 #burger {
-  display: block;
-  width: 75px;
-  position: relative;
   cursor: pointer;
+  display: block;
+  position: relative;
+  width: 75px;
 }
 #burger img {
+  border: none !important;
   float: right;
   margin-left: 10px;
-  border: none !important;
   position: absolute;
+  right: -633px;
   top: -60px;
   width: 75px;
-  right: -633px;
 }
 
 .backhoe a {
+  height: 50px;
+  left: 0px;
   position: absolute;
   top: 24px;
-  left: 0px;
-  height: 50px;
 }
 .backhoe.active img {
-  -webkit-transform: scaleX(-1);
   transition: all 0.3s ease-in-out;
+  -webkit-transform: scaleX(-1);
 }
 .title {
   background-color: #0f6146;
   color: #b3a9a9;
   font-family: 'Anton', sans-serif;
   font-size: 2em;
-  padding: .5em;
   overflow: hidden;
+  padding: .5em;
+}
+
+#navbottom {
+  border-bottom: 2px solid #302f2f;
 }
 
 .title h1 {
-  font-family: 'Anton', sans-serif;
   float: left;
+  font-family: 'Anton', sans-serif;
   margin-top: 5px;
 }
 
