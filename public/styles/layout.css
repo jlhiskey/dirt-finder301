@@ -11,7 +11,8 @@
 .links {
   background-color: #0f6146;
   display: none;
-  font-size: 2em;
+  font-family: 'Anton', sans-serif;
+  font-size: 1.5em;
   padding-bottom: 10px;
   text-align: center;
   transition: all 1.8s ease-in-out;
