@@ -1,57 +1,63 @@
 #burger {
-  display: block;
-  width: 50px;
-  height: 50px;
-  position: absolute;
   cursor: pointer;
-  right: 30px;
-  top: 15px;
+  display: block;
+  position: relative;
+  width: 75px;
 }
 
-#burger span {
-  background: rgb(214, 118, 39);
-  height: 2px;
+#burger img {
+  border: none !important;
+  float: right;
+  margin-left: 10px;
+  position: absolute;
+  right: -633px;
+  top: -60px;
+  width: 75px;
+}
+
+.backhoe a {
+  height: 50px;
   left: 0px;
   position: absolute;
   top: 24px;
-  transition: all 0.1s ease-out;
-  transition-delay: 0.1s;
-  width: 50px;
 }
 
-#burger span:before, #burger span:after {
-  background: rgb(214, 118, 39);
-  content: '';
-  display: block;
-  height: 2px;
-  left: 0px;
-  position: absolute;
-  transform-origin: center;
-  transition: all 0.2s ease-out;
-  width: 50px;
+.backhoe.active img {
+  transition: all 0.3s ease-in-out;
+  -webkit-transform: scaleX(-1);
 }
-#burger span:before {
-  top: -10px;
+
+.title {
+  background-color: #0f6146;
+  color: #b3a9a9;
+  font-family: 'Anton', sans-serif;
+  font-size: 2em;
+  overflow: hidden;
+  padding: .5em;
 }
-#burger span:after {
-  top: 10px;
+
+#navbottom {
+  border-bottom: 2px solid #302f2f;
 }
-#burger:hover span:before {
-  top: -13px;
+
+.title h1 {
+  float: left;
+  font-family: 'Anton', sans-serif;
+  margin-top: 5px;
 }
-#burger:hover span:after {
-  top: 13px;
+
+input[type="text"],
+input[type="number"],
+input[type="url"],
+textarea {
+  font-family: 'Roboto', sans-serif; 
+  font-size: 1em;
+  margin: .5em 0;
+  padding: .5em;
+  width: 90%;
 }
-#burger.active span {
-  height: 0px;
-  transition: all 0.1s ease-out;
-  
-}
-#burger.active span:before {
-  top: 0px;
-  transform: rotate(135deg);
-}
-#burger.active span:after {
-  top: 0px;
-  transform: rotate(-135deg);
+
+input[type="text"]:focus:invalid {
+  border: 1px solid red;
+  color: red;
 }

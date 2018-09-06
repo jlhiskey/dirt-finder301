@@ -1,0 +1,46 @@
+.container {
+  margin: 0 auto;
+  max-width: 768px;
+  width: 100%;
+}
+
+.description {
+  line-height: 1.5em;
+}
+
+.links {
+  background-color: #0f6146;
+  display: none;
+  font-family: 'Anton', sans-serif;
+  font-size: 1.5em;
+  padding-bottom: 10px;
+  text-align: center;
+  transition: all 1.8s ease-in-out;
+  width: 100%;
+}
+
+.links-active {
+  background-color: #0f6146;
+  display: inline-block;
+  padding-bottom: 15px;
+  text-align: center;
+  transition: all 0.8s ease-in-out;
+  width: 100%;
+  z-index: 1;
+}
+
+@media only screen and (min-width: 768px) {
+  .burger {
+    display: none
+  }
+  .links {
+    display: inline;
+    left: 365px;
+    padding-right: 20px;
+    position: relative;
+    top: -60px;
+  }
+  span {
+    display: none;
+  }
+}

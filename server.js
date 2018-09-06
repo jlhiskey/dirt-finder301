@@ -87,13 +87,21 @@ app.get('*', (req, res) => {
 
 function twilioResponse(query) {
   console.log('Query', query);
-  let SQL = `SELECT * FROM userinfo WHERE sitezipcode = $1`;
 
+  let body = [ query.Body ];
+  let stringify = body.toString();
+  let split = stringify.split(' ');
 
-  let values = [ query.Body ];
-
-
-  return client.query(SQL, values);
+  if (split.length === 1) {
+    let SQL = `SELECT * FROM userinfo WHERE sitezipcode = $1`;
+    let values = [ split[0] ];
+    return client.query(SQL, values);
+  }
+  if (split.length === 2) {
+    let SQL = `SELECT * FROM userinfo WHERE sitezipcode = $1 AND soiltype = $2`;
+    let values = [ split[0], split[1] ];
+    return client.query(SQL, values);
+  }
 }
 
 // twilio sms response
@@ -108,8 +116,8 @@ app.post('/sms', (req, res) => {
 
       for(var i=0; i<data.rows.length; i++) {
         twiml.message(`Here are the people near you:` + `\n` + `Name: ${data.rows[i].username}\n` + `Address: ${data.rows[i].siteaddress}\n` + `City: ${data.rows[i].sitecity}\n` + `Zip: ${data.rows[i].sitezipcode}\n` + `Phone: ${data.rows[i].sitephone}\n` + `Have or Need: ${data.rows[i].haveneed}\n`+ `Soil Type: ${data.rows[i].soiltype}\n`);
-
       }
+
       res.writeHead(200, {
         'Content-Type': 'text/xml'
       });
@@ -129,7 +137,7 @@ function homePage(req, res) {
 function userCreation(req, res) {
   res.render('master', {
     'thisPage': 'partials/usercreation.ejs',
-    'thisPageTitle': 'User Creation'
+    'thisPageTitle': 'Add New Location'
   });
 }
 
@@ -155,6 +163,7 @@ function addNew(req, res) {
     req.body.userkey
   ];
 
+
   client.query(SQL, values)
     .then(() => {
       res.render('master', {
@@ -167,9 +176,39 @@ function addNew(req, res) {
     });
 }
 
+
 function userLocations (req, res){
 
   let SQL = ``
+  }
+//geocode function
+function getCoords(req, res) {
+  let SQL = `SELECT siteaddress, sitecity, sitezipcode FROM userinfo`;
+  client.query(SQL)
+    .then( data => {
+      let geoData = data.rows;
+      console.log('geodata', geoData);
+      geoData.forEach( (element) => {
+        console.log('element', element.siteaddress);
+        googleMapsClient.geocode({
+          address: `${element.siteaddress}, ${element.sitecity}, ${element.sitezipcode}`//add siteaddress, sitecity, sitezipcode
+        })
+          .asPromise()
+          .then((res) => {
+            console.log(res.json.results);
+          })
+          .then(
+            res.render('master', {
+              'thisPage': 'partials/map.ejs',
+              'thisPageTitle': 'Dirt Finder Map'
+            })
+          )
+          .catch(() => {
+            pageError(res);
+          });
+      });
+    });
+
 
 }
 

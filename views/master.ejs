@@ -9,9 +9,8 @@
 </head>
 <body>
   <header>
-    <div class="site-title">
-      <h1><a href="/">Dirt-Finder</a></h1>
-      <%- include partials/nav.ejs %>
+    <h1 class="title">Dirt Finder</h1>
+    <%- include partials/nav.ejs %>
     </div>   
   </header>
   
@@ -24,8 +23,10 @@
         <div class="content-container-inner">
             <%- include(thisPage) %>
         </div>
-    </div>  
-    <%- include ./partials/scripts.ejs %>
+
+    </div>
+    <%- include partials/scripts.ejs %>
+
   </main>
 </body>
 </html>

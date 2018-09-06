@@ -1,39 +1,53 @@
 body {
-  width: 90%;
-  margin: 0 auto;
-  background-color: rgb(145, 241, 121);
-  font-family: 'Oswald', sans-serif;
+  background-color: #b3a9a9;
+  font-family: 'Roboto', sans-serif;
   font-size: 1.15em;
+  margin: 0 auto;
+}
+main {
+  margin-top: 120px;
 }
 
 header {
-  background-color: rgb(124, 63, 34); 
+  background-color: #0f6146;
+  border-bottom: 2px solid #302f2f;
+  height: 90px;
+  left: 0px;
+  position: fixed;
   text-align: center;
+  top: 0px;
+  width: 100%;
 }
 
 h1 {
+  font-family: 'Anton', sans-serif;
   font-size: 2em;
 }
 
 h2 {
+  font-family: 'Anton', sans-serif;
   font-size: 1.75em;
 }
 
 p {
   margin-top: 15px;
+  margin: 0 auto;
+  padding: 10px;
+  width: 75%;
 }
 
 img {
-  width: 300px;
+  border: 2px solid rgba(255, 255, 255, 0.404);
   float: right;
   margin-left: 10px;
+  width: 300px;
 }
 
 fieldset {
   border: solid black 2px;
+  margin: 0 auto;
   padding: 10px;
   width: 70%;
-  margin: 0 auto;
 }
 
 input {
@@ -41,15 +55,15 @@ input {
 }
 
 a, a:hover, a:active, a:visited {
-  color: white;
-  font-family: 'Amatic SC', cursive;
+  color: #b3a9a9;
+  font-family: 'Anton', sans-serif;
   text-decoration: none;
 }
 
 .formDiv {
   margin: 0 auto;
-  width: fit-content;
   text-align: center;
+  width: fit-content;
 }
 
 .radioDiv {
@@ -58,25 +72,25 @@ a, a:hover, a:active, a:visited {
 
 .navLink {
   display: inline-block;
+  font-size: 1.25em;
+  margin-bottom: 10px;
   margin-left: 5%;
   margin-right: 2%;
   margin-top: 15px;
-  margin-bottom: 10px;
-  font-size: 1.25em;
 }
 
 .page-title {
-  text-align: center;
-  margin-top: 20px;
   margin-bottom: 40px;
+  margin-top: 20px;
+  text-align: center;
 }
 
 .aboutUsSection {
-  border: solid black 2px;
-  background-color:saddlebrown;
-  padding: 10px;
+  border: 2px solid #302f2f;
+  background-color:rgb(172, 122, 86);
+  display: table;
   margin: 0 auto;
   margin-top: 25px;
+  padding: 10px;
   width: 90%;
-  display: table;
 }
