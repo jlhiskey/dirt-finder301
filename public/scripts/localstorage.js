@@ -9,6 +9,7 @@ function makeNewUserKey() {
 
   let thisUserKey = JSON.parse(localStorage.getItem('userKey'));
   $('#userkey').val(thisUserKey);
+  $('#home').attr('href', `/query/${thisUserKey}`);
   console.log('test', thisUserKey);
 }
 
