@@ -118,9 +118,13 @@ app.post('/sms', (req, res) => {
       const twiml = new MessagingResponse();
       console.log(data.rows.length);
 
-      for(var i=0; i<data.rows.length; i++) {
-        twiml.message(`Here are the people near you:` + `\n` + `Name: ${data.rows[i].username}\n` + `Address: ${data.rows[i].siteaddress}\n` + `City: ${data.rows[i].sitecity}\n` + `Zip: ${data.rows[i].sitezipcode}\n` + `Phone: ${data.rows[i].sitephone}\n` + `Have or Need: ${data.rows[i].haveneed}\n`+ `Soil Type: ${data.rows[i].soiltype}\n`);
-
+      if (data.rows.length === 0) {
+        twiml.message('Please text:\n ZIPCODE SOILTYPE \n Zipcode must be 5 digits and soil type must be structural, base or topsoil');
+      }
+      else {
+        for(var i=0; i<data.rows.length; i++) {
+          twiml.message(`Here are the people near you:` + `\n` + `Name: ${data.rows[i].username}\n` + `Address: ${data.rows[i].siteaddress}\n` + `City: ${data.rows[i].sitecity}\n` + `Zip: ${data.rows[i].sitezipcode}\n` + `Phone: ${data.rows[i].sitephone}\n` + `Have or Need: ${data.rows[i].haveneed}\n`+ `Soil Type: ${data.rows[i].soiltype}\n`);
+        }
       }
       res.writeHead(200, {
         'Content-Type': 'text/xml'
