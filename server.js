@@ -85,6 +85,9 @@ function twilioResponse(query) {
   let stringify = body.toString();
   let split = stringify.split(' ');
 
+  if (split[0] < 5) {
+    return client.query(0);
+  }
   if (split.length === 1) {
     let SQL = `SELECT * FROM userinfo WHERE sitezipcode = $1`;
     let values = [ split[0] ];
