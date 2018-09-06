@@ -10,6 +10,8 @@ const app = express();
 const conString = process.env.DATABASE_URL;
 const googleMaps = require('@google/maps');
 
+let pinsArray = [];
+
 app.use(bodyParser.json());
 app.use(express.urlencoded({
   extended: true
@@ -146,7 +148,7 @@ function addNew(req, res) {
     req.body.soiltype
   ];
   console.log('values=',values);
-  
+
   client.query(SQL, values)
     .then(() => {
       res.render('master', {
@@ -164,29 +166,27 @@ function getCoords(req, res) {
   let SQL = `SELECT siteaddress, sitecity, sitezipcode FROM userinfo`;
   client.query(SQL)
     .then( data => {
-      let geoData = data.rows; 
-      console.log('geodata', geoData);    
+      let geoData = data.rows;
       geoData.forEach( (element) => {
-        console.log('element', element.siteaddress);
+        
+        console.log();
         googleMapsClient.geocode({
           address: `${element.siteaddress}, ${element.sitecity}, ${element.sitezipcode}`//add siteaddress, sitecity, sitezipcode
         })
           .asPromise()
-          .then((res) => {
-            console.log(res.json.results);
-          })
-          .then(
-            res.render('master', {
-              'thisPage': 'partials/map.ejs',
-              'thisPageTitle': 'Dirt Finder Map'
-            })
-          )
           .catch(() => {
             pageError(res);
-          });    
+          });
       });
-    }); 
-      
+    })
+    .then(res.render('master', {
+      'thisPage': 'partials/map.ejs',
+      'thisPageTitle': 'Dirt Finder Map'
+    })
+    )
+    .catch(() => {
+      pageError(res);
+    });
 }
 
 
