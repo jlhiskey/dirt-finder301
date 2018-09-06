@@ -85,9 +85,6 @@ function twilioResponse(query) {
   let stringify = body.toString();
   let split = stringify.split(' ');
 
-  if (split[0] < 5) {
-    return client.query(0);
-  }
   if (split.length === 1) {
     let SQL = `SELECT * FROM userinfo WHERE sitezipcode = $1`;
     let values = [ split[0] ];
@@ -100,17 +97,6 @@ function twilioResponse(query) {
   }
 }
 
-
-
-//   let SQL = `SELECT * FROM userinfo WHERE sitezipcode = $1`;
-
-
-//   let values = [ query.Body ];
-
-
-//   return client.query(SQL, values);
-// }
-
 // twilio sms response
 app.post('/sms', (req, res) => {
 
@@ -121,14 +107,10 @@ app.post('/sms', (req, res) => {
       const twiml = new MessagingResponse();
       console.log(data.rows.length);
 
-      if (data.rows.length === 0) {
-        twiml.message('Please text:\n ZIPCODE SOILTYPE \n Zipcode must be 5 digits and soil type must be structural, base or topsoil');
+      for(var i=0; i<data.rows.length; i++) {
+        twiml.message(`Here are the people near you:` + `\n` + `Name: ${data.rows[i].username}\n` + `Address: ${data.rows[i].siteaddress}\n` + `City: ${data.rows[i].sitecity}\n` + `Zip: ${data.rows[i].sitezipcode}\n` + `Phone: ${data.rows[i].sitephone}\n` + `Have or Need: ${data.rows[i].haveneed}\n`+ `Soil Type: ${data.rows[i].soiltype}\n`);
       }
-      else {
-        for(var i=0; i<data.rows.length; i++) {
-          twiml.message(`Here are the people near you:` + `\n` + `Name: ${data.rows[i].username}\n` + `Address: ${data.rows[i].siteaddress}\n` + `City: ${data.rows[i].sitecity}\n` + `Zip: ${data.rows[i].sitezipcode}\n` + `Phone: ${data.rows[i].sitephone}\n` + `Have or Need: ${data.rows[i].haveneed}\n`+ `Soil Type: ${data.rows[i].soiltype}\n`);
-        }
-      }
+
       res.writeHead(200, {
         'Content-Type': 'text/xml'
       });
