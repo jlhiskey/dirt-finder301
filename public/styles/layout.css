@@ -8,6 +8,9 @@
   line-height: 1.5em;
 }
 
+.links {
+  margin: 0 20px;
+}
 
 
 @media only screen and (max-width: 767px) {
@@ -20,6 +23,7 @@
     text-align: center;
     transition: all 1.8s ease-in-out;
     width: 100%;
+	margin: 0;
   }
   
   .links-active {
@@ -34,21 +38,20 @@
   #burger {
     cursor: pointer;
     display: block;
-    position: relative;
+    position: absolute;
+	top: -74px;
+	right: 20px;
     width: 75px;
   }
   
   #burger img {
     border: none !important;
-    position: relative;
-    left: 290px;
-    top: -23px;
     width: 75px;
   }
   
   .nav {
     position: relative;
-    top: -38px;
+    top: 17px;
   }
   .backhoe a {
     height: 50px;
