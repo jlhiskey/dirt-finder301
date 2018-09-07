@@ -94,3 +94,8 @@ a, a:hover, a:active, a:visited {
   padding: 10px;
   width: 90%;
 }
+
+.location-card {
+  padding: 15px;
+  border: 2px solid rgba(255, 255, 255, 0.404);
+}

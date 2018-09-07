@@ -1,32 +1,3 @@
-#burger {
-  cursor: pointer;
-  display: block;
-  position: relative;
-  width: 75px;
-}
-
-#burger img {
-  border: none !important;
-  float: right;
-  margin-left: 10px;
-  position: absolute;
-  right: -633px;
-  top: -60px;
-  width: 75px;
-}
-
-.backhoe a {
-  height: 50px;
-  left: 0px;
-  position: absolute;
-  top: 24px;
-}
-
-.backhoe.active img {
-  transition: all 0.3s ease-in-out;
-  -webkit-transform: scaleX(-1);
-}
-
 .title {
   background-color: #0f6146;
   color: #b3a9a9;
@@ -36,9 +7,6 @@
   padding: .5em;
 }
 
-#navbottom {
-  border-bottom: 2px solid #302f2f;
-}
 
 .title h1 {
   float: left;
