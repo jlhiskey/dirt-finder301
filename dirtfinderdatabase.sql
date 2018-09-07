@@ -10,3 +10,4 @@ CREATE TABLE userinfo (
   soiltype VARCHAR(15),
   userkey BIGINT
 );
+
