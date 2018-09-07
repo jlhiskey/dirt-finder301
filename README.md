@@ -14,6 +14,7 @@
    * When User Creation Form is Submitted a new location is added to the database.
   * Twilio
     * When user texts zipcode to 206-203-6412 they will receive a text response of all of the sites in the area that have or need dirt.
+    * When user texts zipcode soiltype (structural) to 206-203-6412 they will receive a text response of all of the sites in the area that have or need dirt.
   * Map Page
     * When loaded renders stored pin data.
 
